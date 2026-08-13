@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nazeen Welfare Foundation | Spreading Hope, Changing Lives</title>
+
+<link rel="stylesheet" href="style.css">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="site-header">
+  <div class="container header-inner">
+    <div class="logo">
+      <a href="#home">
+        <img src="images/logo.png" alt="Nazeen Welfare Foundation logo">
+        <span>Nazeen<br>Welfare Foundation</span>
+      </a>
+    </div>
+    <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="main-navigation">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    </button>
+    <nav class="main-nav" id="main-navigation">
+      <a href="#home" class="active">Home</a>
+      <a href="#about">About us</a>
+      <a href="#programs">Our Work</a>
+      <a href="#gallery">Gallery</a>
+      <a href="#involved">Get Involved</a>
+      <a href="#contact">Contact us</a>
+    </nav>
+    <a href="#donate" class="btn btn-donate">
+      <svg viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M12 12c2.2 0 4-1.8 4-4s-1.8-4-4-4-4 1.8-4 4 1.8 4 4 4zm0 2c-2.7 0-8 1.3-8 4v2h16v-2c0-2.7-5.3-4-8-4z"/></svg>
+      Donate
+    </a>
+  </div>
+</header>
+
+<!-- DONATION MODAL -->
+<div class="donation-modal" id="donationModal" aria-hidden="true">
+  <div class="modal-backdrop" data-dismiss="modal"></div>
+  <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="donateTitle">
+    <button class="modal-close" aria-label="Close donation form">&times;</button>
+    <h3 id="donateTitle">Support Nazeen Welfare Foundation</h3>
+    <p>Please enter your details and choose a donation amount.</p>
+
+    <form id="donate-form">
+      <div class="form-row">
+        <label for="donor-name">Full name</label>
+        <input type="text" id="donor-name" name="name" required placeholder="Your full name">
+      </div>
+
+      <div class="form-row two-up">
+        <div>
+          <label for="donor-email">Email</label>
+          <input type="email" id="donor-email" name="email" required placeholder="you@example.com">
+        </div>
+        <div>
+          <label for="donor-mobile">Mobile</label>
+          <input type="tel" id="donor-mobile" name="mobile" required placeholder="+91 9XXXXXXXXX">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <label>Donation amount</label>
+        <div class="amount-options">
+          <label><input type="radio" name="amount" value="500"> ₹500</label>
+          <label><input type="radio" name="amount" value="1000"> ₹1,000</label>
+          <label><input type="radio" name="amount" value="2500"> ₹2,500</label>
+          <label><input type="radio" name="amount" value="other"> Other</label>
+        </div>
+        <input type="number" id="donor-amount-other" name="amount_other" min="1" placeholder="Enter amount" style="display:none;">
+      </div>
+
+      <div class="form-row">
+        <label>Payment method</label>
+        <div class="payment-methods">
+          <label><input type="radio" name="method" value="card" required> Card (Credit/Debit)</label>
+          <label><input type="radio" name="method" value="upi"> UPI</label>
+          <label><input type="radio" name="method" value="netbanking"> Netbanking</label>
+          <label><input type="radio" name="method" value="paypal"> PayPal</label>
+        </div>
+      </div>
+
+      <div class="form-row form-actions">
+        <button type="submit" class="btn btn-primary">Proceed to Pay</button>
+        <button type="button" class="btn" data-dismiss="modal">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <button class="hero-arrow hero-arrow-left" aria-label="Previous slide">&#10094;</button>
+  <button class="hero-arrow hero-arrow-right" aria-label="Next slide">&#10095;</button>
+
+  <div class="hero-inner container">
+    <div class="hero-text">
+      <span class="hero-badge">EDUCATION FOR EVERY CHILD</span>
+      <h1>Lighting the Path<br>of Education</h1>
+      <p>Nazeen Welfare Foundation believes that education is the most powerful tool to transform lives. Through awareness campaigns, study programs, and educational support, the foundation helps children from underprivileged backgrounds reach their dreams.</p>
+    </div>
+    <div class="hero-image">
+      <img src="images/gallery/education-books-group.jpeg" alt="Volunteers distributing English grammar books to children">
+    </div>
+  </div>
+</section>
+
+<!-- WHO WE ARE -->
+<section class="who-we-are" id="about">
+  <div class="container who-inner">
+    <div class="who-text">
+      <span class="eyebrow">WHO WE ARE</span>
+      <h2>Nazeen Welfare Foundation</h2>
+      <p>Nazeen Welfare Foundation is a social welfare organization dedicated to supporting underprivileged individuals and communities through education, healthcare, food assistance, emergency relief, and community development initiatives. We work with compassion, transparency, and a commitment to creating meaningful and lasting social impact.</p>
+      <p>Registered under section 8 company, the foundation is guided by Founder &amp; Director <strong>Zahid Akhtar / Nafis Ahmad</strong>, and works tirelessly across communities to make a difference where it matters most — <strong>“Together, we aim to spread hope, create opportunities, and change lives.”</strong></p>
+      <a href="#about" class="btn btn-primary">&rarr; Learn More</a>
+    </div>
+    <div class="who-image">
+      <img src="images/gallery/education-books-girls.jpeg" alt="Two girls holding donated English grammar books">
+    </div>
+  </div>
+</section>
+
+<!-- KEY PROGRAMS / OUR WORK -->
+<section class="programs" id="programs">
+  <div class="container">
+    <h2 class="section-title">Our Work</h2>
+    <p class="section-subtitle">Nazeen Welfare Foundation runs several impactful programs that focus on education, food security, healthcare, emergency relief, and social welfare. Each initiative is designed to bring real, measurable change in the lives of the people we serve.</p>
+
+    <div class="program-grid work-grid">
+      <article class="program-card">
+        <img src="images/gallery/education-books-group.jpeg" alt="Volunteers handing out English grammar books">
+        <span class="program-icon">&#127891;</span>
+        <h3>Education Support</h3>
+        <p>Supporting students through educational materials, learning resources, and opportunities — including free books and study guides for children who need them most.</p>
+      </article>
+
+      <article class="program-card">
+        <img src="images/gallery/food-distribution-1.jpeg" alt="Volunteer distributing food packets">
+        <span class="program-icon">&#127839;</span>
+        <h3>Food &amp; Essential Distribution</h3>
+        <p>Providing food, clothing, and essential items to individuals and families in need across our communities.</p>
+      </article>
+
+      <article class="program-card">
+        <img src="images/gallery/healthcare-support.jpeg" alt="Healthcare outreach and support">
+        <span class="program-icon program-icon-standalone">&#127973;</span>
+        <h3>Healthcare Support</h3>
+        <p>Promoting health awareness and supporting people facing healthcare-related challenges through outreach and guidance.</p>
+      </article>
+
+      <article class="program-card">
+        <img src="images/gallery/night-relief.jpeg" alt="Emergency relief support for an elderly man">
+        <span class="program-icon">&#128680;</span>
+        <h3>Emergency Relief</h3>
+        <p>Providing timely assistance and essential support during emergencies and difficult situations, including cold-weather and night relief drives.</p>
+      </article>
+
+      <article class="program-card">
+        <img src="images/gallery/education-books-girls.jpeg" alt="Mother receiving essential supplies for her family">
+        <span class="program-icon">&#128105;</span>
+        <h3>Women &amp; Child Welfare</h3>
+        <p>Supporting the well-being, education, safety, and opportunities of women and children in the communities we serve.</p>
+      </article>
+
+      <article class="program-card">
+        <img src="images/gallery/emergency-relief-market.jpeg" alt="Community outreach and relief distribution">
+        <span class="program-icon">&#129309;</span>
+        <h3>Community Development</h3>
+        <p>Conducting community-focused initiatives that promote awareness, participation, dignity, and social development.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- MISSION & VISION -->
+<section class="mission-vision">
+  <div class="container">
+    <h2 class="section-title accent">Our Mission &amp; Vision</h2>
+    <p class="section-subtitle dark">Inspiring Change Through Education, Empowerment, and Compassion</p>
+
+    <div class="mv-grid">
+      <div class="mv-card">
+        <div class="mv-icon">
+          <svg viewBox="0 0 64 64" width="70" height="70">
+            <rect x="14" y="40" width="36" height="8" rx="2" fill="#f5a623"/>
+            <rect x="18" y="32" width="28" height="8" rx="2" fill="#f5a623"/>
+            <rect x="22" y="24" width="20" height="8" rx="2" fill="#f5a623"/>
+            <circle cx="32" cy="14" r="6" fill="#1e3a5f"/>
+            <rect x="26" y="18" width="12" height="10" fill="#1e3a5f"/>
+          </svg>
+        </div>
+        <h3>Our Mission</h3>
+        <p>Our mission is to empower underprivileged individuals and communities by providing meaningful support in education, healthcare, food security, emergency relief, and social welfare. We strive to serve with compassion, transparency, and responsibility while creating opportunities for a better future.</p>
+      </div>
+
+      <div class="mv-card">
+        <div class="mv-icon">
+          <svg viewBox="0 0 64 64" width="70" height="70">
+            <circle cx="32" cy="32" r="10" fill="none" stroke="#f5a623" stroke-width="2.5"/>
+            <g fill="#f5a623">
+              <circle cx="32" cy="8" r="3"/>
+              <circle cx="50" cy="14" r="3"/>
+              <circle cx="58" cy="32" r="3"/>
+              <circle cx="50" cy="50" r="3"/>
+              <circle cx="32" cy="56" r="3"/>
+              <circle cx="14" cy="50" r="3"/>
+              <circle cx="6" cy="32" r="3"/>
+              <circle cx="14" cy="14" r="3"/>
+            </g>
+          </svg>
+        </div>
+        <h3 class="blue">Our Vision</h3>
+        <p>Our vision is to build an inclusive and compassionate society where every individual can live with dignity, access basic necessities, receive equal opportunities, and move towards a healthier, educated, and more secure future.</p>
+      </div>
+
+      <div class="mv-card objectives-card">
+        <h3 class="blue">Our Commitment</h3>
+        <ul>
+          <li>Serving communities with sincerity and compassion</li>
+          <li>Maintaining full transparency in all our work</li>
+          <li>Using donated resources responsibly</li>
+          <li>Continuously expanding our efforts to reach those in need</li>
+          <li>Building a network of volunteers committed to social good</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section class="gallery" id="gallery">
+  <div class="container">
+    <h2 class="section-title">Moments From the Field</h2>
+    <p class="section-subtitle">A glimpse of our foundation's work — from education drives to food and emergency relief distribution.</p>
+
+    <!-- Sliding teaser: 4 featured photos -->
+    <div class="gallery-slider" id="gallerySlider">
+      <div class="slider-track" id="sliderTrack">
+        <div class="slide active">
+          <img src="images/gallery/education-books-group.jpeg" alt="Distributing books to children and families">
+          <span class="slide-caption">Education Support &mdash; distributing books to children</span>
+        </div>
+        <div class="slide">
+          <img src="images/gallery/night-relief.jpeg" alt="Night-time emergency relief for women and children">
+          <span class="slide-caption">Emergency Relief &mdash; reaching families after dark</span>
+        </div>
+        <div class="slide">
+          <img src="images/gallery/emergency-relief-elderly.jpeg" alt="Elderly man receiving food relief">
+          <span class="slide-caption">Caring for the elderly in our community</span>
+        </div>
+        <div class="slide">
+          <img src="images/gallery/food-distribution-3.jpeg" alt="Food essentials distribution">
+          <span class="slide-caption">Food &amp; Essential Distribution drives</span>
+        </div>
+      </div>
+      <div class="slider-dots" id="sliderDots"></div>
+      <button class="slider-arrow slider-arrow-left" aria-label="Previous photo">&#10094;</button>
+      <button class="slider-arrow slider-arrow-right" aria-label="Next photo">&#10095;</button>
+    </div>
+
+    <!-- Full photo gallery grid -->
+    <div class="gallery-grid">
+      <div class="gallery-item"><img src="images/gallery/education-books-group.jpeg" alt="Volunteers handing books to a family"></div>
+      <div class="gallery-item"><img src="images/gallery/education-books-girls.jpeg" alt="Two girls with grammar books"></div>
+      <div class="gallery-item"><img src="images/gallery/education-books-boy.jpeg" alt="Boy holding a grammar book"></div>
+      <div class="gallery-item"><img src="images/gallery/food-distribution-1.jpeg" alt="Woman with food ration bags"></div>
+      <div class="gallery-item"><img src="images/gallery/food-distribution-2.jpeg" alt="Mother with child receiving supplies"></div>
+      <div class="gallery-item"><img src="images/gallery/food-distribution-3.jpeg" alt="Woman receiving food essentials"></div>
+      <div class="gallery-item"><img src="images/gallery/food-distribution-4.jpeg" alt="Woman with ration bags at distribution point"></div>
+      <div class="gallery-item"><img src="images/gallery/food-distribution-collage.jpeg" alt="Collage of food distribution recipients"></div>
+      <div class="gallery-item"><img src="images/gallery/emergency-relief-market.jpeg" alt="Emergency relief in a busy market area"></div>
+      <div class="gallery-item"><img src="images/gallery/emergency-relief-elderly.jpeg" alt="Elderly man on a rickshaw with relief supplies"></div>
+      <div class="gallery-item"><img src="images/gallery/night-relief.jpeg" alt="Night relief distribution to women and children"></div>
+      <div class="gallery-item"><img src="images/gallery/healthcare-support.jpeg" alt="Healthcare outreach and support"></div>
+    </div>
+  </div>
+</section>
+
+
+
+
+<!-- GET INVOLVED -->
+<section class="get-involved" id="involved">
+  <div class="container involved-inner">
+    <div class="involved-image">
+    <img src="images/gallery/food-distribution-collage.jpeg" alt="Volunteer distributing essential supplies">
+    </div>
+    <div class="involved-text">
+      <h2>Be a Part of the Change</h2>
+      <p>Your small contribution can make a big difference. Whether it's volunteering your time, donating resources, or supporting our initiatives, every effort helps us move closer to a more equitable and educated society.</p>
+      <p>Join hands with Nazeen Welfare Foundation to bring smiles, spread hope, and build a better future for those in need.</p>
+      <h4>There are many ways to contribute to our mission:</h4>
+      <p><strong>Volunteer Your Time:</strong> Share your skills, teach, or assist in our field projects and awareness drives.</p>
+      <p><strong>Donate Resources:</strong> Support our initiatives through monetary donations or by providing books, clothes, and other essentials.</p>
+      <p><strong>Partner with Us:</strong> Collaborate with our foundation to organize educational programs, training workshops, and welfare activities.</p>
+      <div class="involved-buttons">
+       <a href="https://forms.gle/a2ryP1mYCjxFbMcQ6" class="btn btn-primary btn-volunteer" target="_blank" rel="noopener noreferrer">&rarr; Become a Volunteer</a>
+        <a href="#donate" class="btn btn-primary btn-donate">
+          <svg viewBox="0 0 24 24" width="15" height="15"><path fill="currentColor" d="M12 12c2.2 0 4-1.8 4-4s-1.8-4-4-4-4 1.8-4 4 1.8 4 4 4zm0 2c-2.7 0-8 1.3-8 4v2h16v-2c0-2.7-5.3-4-8-4z"/></svg>
+          Support Our Cause
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VOLUNTEER MODAL -->
+<div class="volunteer-modal" id="volunteerModal" aria-hidden="true">
+  <div class="modal-backdrop" data-dismiss="modal"></div>
+  <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="volunteerTitle">
+    <button class="modal-close" aria-label="Close volunteer form">&times;</button>
+    <h3 id="volunteerTitle">Become a Volunteer</h3>
+    <p>Fill out the form below to join our volunteer community.</p>
+
+    <form id="volunteer-form">
+      <div class="form-row">
+        <label for="vol-name">Full name</label>
+        <input type="text" id="vol-name" name="name" required placeholder="Your full name">
+      </div>
+
+      <div class="form-row two-up">
+        <div>
+          <label for="vol-email">Email</label>
+          <input type="email" id="vol-email" name="email" required placeholder="you@example.com">
+        </div>
+        <div>
+          <label for="vol-mobile">Mobile</label>
+          <input type="tel" id="vol-mobile" name="mobile" required placeholder="+91 9XXXXXXXXX">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <label for="vol-interest">Area of interest</label>
+        <select id="vol-interest" name="interest" required>
+          <option value="">Choose an area</option>
+          <option value="teaching">Teaching / Tutoring</option>
+          <option value="events">Event Support</option>
+          <option value="fundraising">Fundraising</option>
+          <option value="awareness">Awareness &amp; Outreach</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+
+      <div class="form-row">
+        <label for="vol-availability">Availability</label>
+        <input type="text" id="vol-availability" name="availability" placeholder="e.g., Weekends, Weekdays evenings">
+      </div>
+
+      <div class="form-row">
+        <label for="vol-message">Message / Skills</label>
+        <textarea id="vol-message" name="message" rows="4" placeholder="Tell us about your skills or how you'd like to help"></textarea>
+      </div>
+
+      <div class="form-row form-actions">
+        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="button" class="btn" data-dismiss="modal">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="site-footer" id="contact">
+  <div class="container footer-inner">
+    <div class="footer-col">
+      <h3>Nazeen Welfare Foundation</h3>
+      <p>Nazeen Welfare Foundation is a social welfare organization dedicated to supporting underprivileged individuals and communities through education, healthcare, food assistance, emergency relief, and community development initiatives.</p>
+      <p>Registered under Section 8 Company. Founded and directed by Zahid Akhtar & Nafis Ahmad.</p>
+    </div>
+    <div class="footer-col">
+      <h3>Quick Links</h3>
+      <ul>
+        <li><a href="#home">&rarr; Home</a></li>
+        <li><a href="#about">&rarr; About us</a></li>
+        <li><a href="#programs">&rarr; Our Work</a></li>
+        <li><a href="#gallery">&rarr; Gallery</a></li>
+        <li><a href="#involved">&rarr; Get involved</a></li>
+        <li><a href="#contact">&rarr; Contact us</a></li>
+        <li><a href="#donate">&rarr; Donation</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h3>Get in Touch</h3>
+      <p>&#128222; +91 6209939062</p>
+      <p>&#128172; nazeenwelfarefoundation@gmail.com</p>
+      <p>&#128205; Office Address: Ward No-4, Nandpur, Narkatiaganj, West Champaran, Bihar &ndash; 845455.</p>
+      <p style="display: flex; flex-direction: column; gap: 12px; margin: 0;">
+
+  <a href="https://www.facebook.com/share/1TfkgczSmW/" target="_blank" rel="noopener noreferrer" style="text-decoration: none;">
+    <i class="fa-brands fa-facebook-f" style="font-size: 20px; width: 25px; margin-right: 10px;"></i>
+    Facebook
+  </a>
+
+  <a href="https://www.instagram.com/nazeen_welfare_foundation?igsh=aW9jN2NpcWQ0Z2oy" target="_blank" rel="noopener noreferrer" style="text-decoration: none;">
+    <i class="fa-brands fa-instagram" style="font-size: 20px; width: 25px; margin-right: 10px;"></i>
+    Instagram
+  </a>
+
+  <a href="https://youtube.com/@nazeenwelfarefoundation?si=SD7CugXhIdn3Yc1-" target="_blank" rel="noopener noreferrer" style="text-decoration: none;">
+    <i class="fa-brands fa-youtube" style="font-size: 20px; width: 25px; margin-right: 10px;"></i>
+    YouTube
+  </a>
+
+</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; 2026 Nazeen Welfare Foundation | Spreading Hope, Changing Lives</p>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
