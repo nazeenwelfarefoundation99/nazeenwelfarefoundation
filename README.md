@@ -106,8 +106,6 @@ All photos in this build are pulled live from LoremFlickr
 (https://loremflickr.com), a free keyword-based placeholder image service —
 this keeps the zip small and avoids bundling copyrighted photos.
 
-Example from the code:
-<img src="https://loremflickr.com/700/700/india,children,school?lock=11" alt="Children studying together">
 
 ### To replace with your own photos:
 1. Add your image files to a local images/ folder (create it if needed).
