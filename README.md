@@ -100,28 +100,6 @@ border-radius: 45% 55% 60% 40% / 50% 40% 60% 50%;
 
 ---
 
-## 🖼️ Images
-
-All photos in this build are pulled live from LoremFlickr
-(https://loremflickr.com), a free keyword-based placeholder image service —
-this keeps the zip small and avoids bundling copyrighted photos.
-
-
-### To replace with your own photos:
-1. Add your image files to a local images/ folder (create it if needed).
-2. In index.html, replace the src="https://loremflickr.com/..." URL with
-   your local path, e.g. src="images/hero.jpg".
-3. Repeat for each <img> tag. There are 5 photo spots total:
-   - Hero banner photo
-   - "Who We Are" photo
-   - 3 program card photos (governance, education, health)
-   - "Be a Part of the Change" photo
-
-⚠️ Note: loremflickr.com requires an internet connection to load images.
-If you need the site to work fully offline, swap in local images.
-
----
-
 ## ⚙️ JavaScript Features (js/script.js)
 
 1. Smooth scrolling — all internal links (href="#...") scroll smoothly
