@@ -430,6 +430,8 @@ h1, h2, h3, h4 {
 .program-card {
   position: relative;
   background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
 }
 .program-card img {
   height: 190px;
