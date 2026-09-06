@@ -25,12 +25,48 @@ function updateHeroImage(direction) {
   heroImg.src = heroPhotos[heroIndex];
 }
 
-document.querySelector('.hero-arrow-right')?.addEventListener('click', () => updateHeroImage(1));
-document.querySelector('.hero-arrow-left')?.addEventListener('click', () => updateHeroImage(-1));
+if (heroImg) {
+  document.querySelector('.hero-arrow-right')?.addEventListener('click', () => updateHeroImage(1));
+  document.querySelector('.hero-arrow-left')?.addEventListener('click', () => updateHeroImage(-1));
 
-setInterval(() => {
-  updateHeroImage(1);
-}, 5000);
+  setInterval(() => {
+    updateHeroImage(1);
+  }, 5000);
+}
+
+// Rotate About section photos every five seconds.
+const aboutImg = document.getElementById('aboutImage');
+const aboutPhotos = [
+  {
+    src: 'images/gallery/education-books-girls.jpeg',
+    alt: 'Two girls holding donated English grammar books'
+  },
+  {
+    src: 'images/gallery/education-books-boy.jpeg',
+    alt: 'A boy holding a donated English grammar book'
+  },
+  {
+    src: 'images/gallery/food-distribution-2.jpeg',
+    alt: 'A mother and child receiving essential supplies'
+  },
+  {
+    src: 'images/gallery/healthcare-support.jpeg',
+    alt: 'Healthcare outreach and support'
+  }
+];
+let aboutIndex = 0;
+
+if (aboutImg) {
+  setInterval(() => {
+    aboutIndex = (aboutIndex + 1) % aboutPhotos.length;
+    aboutImg.classList.add('is-changing');
+    setTimeout(() => {
+      aboutImg.src = aboutPhotos[aboutIndex].src;
+      aboutImg.alt = aboutPhotos[aboutIndex].alt;
+      aboutImg.classList.remove('is-changing');
+    }, 250);
+  }, 5000);
+}
 
 // Highlight active nav link on scroll
 const sections = document.querySelectorAll('section[id]');
@@ -96,6 +132,11 @@ donateButtons.forEach(btn => btn.addEventListener('click', (e) => {
   e.preventDefault();
   openDonationModal();
 }));
+
+// Open the donation form when arriving from an external page header button.
+if (window.location.hash === '#donate') {
+  openDonationModal();
+}
 
 modalBackdrop?.addEventListener('click', closeDonationModal);
 modalClose?.addEventListener('click', closeDonationModal);
@@ -215,4 +256,90 @@ volunteerForm?.addEventListener('submit', (e) => {
   sliderEl?.addEventListener('mouseleave', startAutoplay);
 
   startAutoplay();
+})();
+
+// ===== Full gallery hero slider =====
+(function () {
+  const track = document.getElementById('galleryHeroTrack');
+  if (!track) return;
+
+  const slides = Array.from(track.querySelectorAll('.gallery-hero-slide'));
+  const dotsWrap = document.getElementById('galleryHeroDots');
+  let current = 0;
+  let timer = null;
+
+  slides.forEach((_, index) => {
+    const dot = document.createElement('button');
+    dot.type = 'button';
+    dot.className = index === 0 ? 'active' : '';
+    dot.setAttribute('aria-label', 'Show featured photo ' + (index + 1));
+    dot.addEventListener('click', () => goTo(index));
+    dotsWrap.appendChild(dot);
+  });
+  const dots = Array.from(dotsWrap.querySelectorAll('button'));
+
+  function goTo(index) {
+    slides[current].classList.remove('active');
+    dots[current].classList.remove('active');
+    current = (index + slides.length) % slides.length;
+    slides[current].classList.add('active');
+    dots[current].classList.add('active');
+  }
+  function restart() {
+    if (timer) clearInterval(timer);
+    timer = setInterval(() => goTo(current + 1), 5000);
+  }
+
+  document.querySelector('.gallery-hero-arrow-right')?.addEventListener('click', () => { goTo(current + 1); restart(); });
+  document.querySelector('.gallery-hero-arrow-left')?.addEventListener('click', () => { goTo(current - 1); restart(); });
+  restart();
+})();
+
+// ===== Impact counters and independent measurement bars =====
+(function () {
+  const impact = document.querySelector('.impact-section');
+  if (!impact) return;
+
+  const cards = Array.from(impact.querySelectorAll('.impact-card'));
+  const numbers = Array.from(impact.querySelectorAll('.impact-number'));
+  const bars = Array.from(impact.querySelectorAll('.impact-bar-row'));
+  let started = false;
+
+  function countNumber(number) {
+    const target = Number(number.dataset.target);
+    const value = number.querySelector('span');
+    const duration = 1200;
+    const start = performance.now();
+
+    function tick(now) {
+      const progress = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      value.textContent = Math.floor(target * eased);
+      if (progress < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+
+  function startImpact() {
+    if (started) return;
+    started = true;
+    cards.forEach((card, index) => {
+      card.style.animationDelay = `${index * 100}ms`;
+      card.classList.add('is-visible');
+    });
+    numbers.forEach(countNumber);
+    bars.forEach((bar, index) => {
+      bar.style.setProperty('--bar-scale', bar.dataset.barScale);
+      bar.style.animationDelay = `${index * 100}ms`;
+      bar.classList.add('is-visible');
+    });
+  }
+
+  const observer = new IntersectionObserver((entries) => {
+    if (entries.some(entry => entry.isIntersecting)) {
+      startImpact();
+      observer.disconnect();
+    }
+  }, { threshold: .2 });
+  observer.observe(impact);
 })();
