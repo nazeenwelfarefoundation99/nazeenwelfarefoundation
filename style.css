@@ -8,7 +8,7 @@
   --orange-dark: #b86c10;
   --navy: #17324d;
   --cream: #fff8ed;
-  --text-dark: #405466;
+  --text-dark: #4c707b;
 
   --bg-void: #fffdf9;
   --bg-panel: #ffffff;
@@ -1225,7 +1225,7 @@ h1, h2, h3, h4 {
   text-align: center;
   padding: 20px 0;
   font-size: .88rem;
-  color: #6c7891;
+  color: #fff700;
 }
 
 /* ===== Responsive ===== */
