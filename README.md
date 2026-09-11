@@ -170,9 +170,7 @@ The website includes:
 
 **Address:**
 
-H.No. 334, KH No. 64/2, First Floor, Street No. 5,
-D-Block Mukundpur Part-1, Samaypur Badli,
-North West Delhi, Delhi – 110042, India.
+Ward No-4, Nandpur, Narkatiaganj, West Champaran, Bihar – 845455 India.
 
 ## 🤝 Get Involved
 
