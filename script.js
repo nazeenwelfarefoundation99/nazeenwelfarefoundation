@@ -153,24 +153,88 @@ document.querySelectorAll('.amount-options input[name="amount"]').forEach(r => r
   }
 }));
 
-// Simple form submit handler (placeholder for real payment integration)
-donateForm?.addEventListener('submit', (e) => {
+const donationStatus = donationModal?.querySelector('#donation-status');
+const donationApiBase = (window.DONATION_API_BASE || 'http://localhost:3000').replace(/\/$/, '');
+let donationStatusTimer;
+
+function escapeDonationText(value) {
+  return String(value).replace(/[&<>'"]/g, character => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[character]));
+}
+
+function showDonationStatus(title, message, type = '') {
+  if (!donationStatus) return;
+  donationStatus.hidden = false;
+  donationStatus.className = `donation-status${type ? ` status-${type}` : ''}`;
+  donationStatus.innerHTML = `<h4>${escapeDonationText(title)}</h4><p>${escapeDonationText(message)}</p>`;
+}
+
+function showDonationResult(result) {
+  if (!donationStatus) return;
+  const status = result.status;
+  if (status === 'SUCCESS') {
+    donationStatus.hidden = false;
+    donationStatus.className = 'donation-status status-success';
+    donationStatus.innerHTML = `<h4>Donation Successful</h4><p><strong>Donation ID:</strong> ${escapeDonationText(result.donationId)}</p><p><strong>Amount:</strong> ₹${Number(result.amount).toLocaleString('en-IN')}</p><p><strong>Email:</strong> ${escapeDonationText(result.email)}</p>${result.receiptUrl ? `<a class="btn btn-primary" href="${donationApiBase}${result.receiptUrl}" target="_blank" rel="noopener">Download Receipt</a>` : '<p>Your receipt is being prepared and will also be emailed to you.</p>'}`;
+    return;
+  }
+  const labels = { FAILED: ['Payment Failed', 'The payment was not completed. You can close this message and try again.'], CANCELLED: ['Payment Cancelled', 'The payment was cancelled. You can try again whenever you are ready.'], PENDING: ['Payment Pending', 'We are confirming your payment. This page will update automatically.'] };
+  const [title, message] = labels[status] || labels.PENDING;
+  showDonationStatus(title, message, status === 'FAILED' || status === 'CANCELLED' ? 'error' : '');
+}
+
+async function checkDonationStatus(orderId, attempts = 0) {
+  try {
+    const response = await fetch(`${donationApiBase}/api/donations/orders/${encodeURIComponent(orderId)}/status`);
+    if (!response.ok) throw new Error('Unable to retrieve payment status.');
+    const result = await response.json();
+    showDonationResult(result);
+    if (result.status === 'PENDING' && attempts < 20) {
+      donationStatusTimer = window.setTimeout(() => checkDonationStatus(orderId, attempts + 1), 3000);
+    }
+  } catch (error) {
+    showDonationStatus('Payment Status Unavailable', error.message, 'error');
+  }
+}
+
+donateForm?.addEventListener('submit', async (e) => {
   e.preventDefault();
-  const form = e.target;
-  const formData = new FormData(form);
-  let amount = formData.get('amount');
-  if (amount === 'other') amount = formData.get('amount_other');
-  // Basic validation
-  if (!formData.get('name') || !formData.get('email') || !formData.get('mobile') || !amount || Number(amount) <= 0 || !formData.get('method')) {
-    alert('Please complete all required fields and select an amount and payment method.');
+  const submitButton = donateForm.querySelector('button[type="submit"]');
+  const formData = new FormData(donateForm);
+  const selectedAmount = formData.get('amount');
+  const amount = selectedAmount === 'other' ? formData.get('amount_other') : selectedAmount;
+  const mobile = String(formData.get('mobile') || '').trim();
+  if (!formData.get('name') || !donateForm.querySelector('[name="email"]')?.checkValidity() || !/^\+?[0-9][0-9\s-]{9,18}$/.test(mobile) || !Number.isInteger(Number(amount)) || Number(amount) < 1 || Number(amount) > 1000000) {
+    showDonationStatus('Check your details', 'Enter a valid name, email, mobile number and donation amount between ₹1 and ₹10,00,000.', 'error');
     return;
   }
 
-  // Simulate submission
-  closeDonationModal();
-  alert('Thank you, ' + formData.get('name') + '!\nYou chose to donate ₹' + amount + ' via ' + formData.get('method') + '.\nWe will redirect you to the payment gateway.');
-  // TODO: integrate with a real payment gateway / redirect here.
+  submitButton.disabled = true;
+  submitButton.textContent = 'Starting secure checkout...';
+  showDonationStatus('Processing Payment', 'Connecting securely to Cashfree. Please do not close this window.');
+  try {
+    const response = await fetch(`${donationApiBase}/api/donations/orders`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name: formData.get('name'), email: formData.get('email'), mobile, amount: Number(amount) })
+    });
+    const result = await response.json();
+    if (!response.ok) throw new Error(result.error || 'Unable to start payment.');
+    if (!window.Cashfree) throw new Error('Cashfree Checkout could not be loaded. Please try again.');
+    const cashfree = window.Cashfree({ mode: 'sandbox' });
+    await cashfree.checkout({ paymentSessionId: result.paymentSessionId, redirectTarget: '_self' });
+  } catch (error) {
+    showDonationStatus('Payment Could Not Start', error.message, 'error');
+    submitButton.disabled = false;
+    submitButton.textContent = 'Proceed to Pay';
+  }
 });
+
+const returnOrderId = new URLSearchParams(window.location.search).get('order_id');
+if (returnOrderId && new URLSearchParams(window.location.search).get('donation_status') === 'return') {
+  openDonationModal();
+  showDonationStatus('Checking Payment', 'Confirming your payment with Cashfree.');
+  checkDonationStatus(returnOrderId);
+}
 
 // Volunteer modal behavior
 const volunteerButtons = document.querySelectorAll('.btn-volunteer');

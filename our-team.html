@@ -5,7 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Our Team | Nazeen Welfare Foundation</title>
 <link rel="stylesheet" href="style.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Libre+Baskerville:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<script src="https://sdk.cashfree.com/js/v3/cashfree.js"></script>
+<script src="payment-config.js"></script>
 </head>
 <body>
 
@@ -68,20 +73,13 @@
         </div>
         <input type="number" id="donor-amount-other" name="amount_other" min="1" placeholder="Enter amount" style="display:none;">
       </div>
-      <div class="form-row">
-        <label>Payment method</label>
-        <div class="payment-methods">
-          <label><input type="radio" name="method" value="card" required> Card (Credit/Debit)</label>
-          <label><input type="radio" name="method" value="upi"> UPI</label>
-          <label><input type="radio" name="method" value="netbanking"> Netbanking</label>
-          <label><input type="radio" name="method" value="paypal"> PayPal</label>
-        </div>
-      </div>
+      <p class="payment-provider-note">Secure payment powered by Cashfree. Available payment methods are shown at checkout.</p>
       <div class="form-row form-actions">
         <button type="submit" class="btn btn-primary">Proceed to Pay</button>
         <button type="button" class="btn" data-dismiss="modal">Cancel</button>
       </div>
     </form>
+    <div id="donation-status" class="donation-status" aria-live="polite" hidden></div>
   </div>
 </div>
 

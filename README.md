@@ -183,19 +183,34 @@ There are multiple ways to support the foundation:
 * Participate in awareness programs
 * Partner with the foundation
 
-## 🔮 Future Improvements
+## 💳 Cashfree Donations
 
-Possible future enhancements include:
+The donation modal uses Cashfree Sandbox Checkout through the separate Node.js backend in `server.js`. The browser never receives the Cashfree secret key. The backend stores donation/order state in SQLite, accepts only verified Cashfree webhooks as proof of success, generates one PDF receipt, and emails it through the configured SMTP service.
 
-* Online donation/payment integration
-* Volunteer registration system
-* Online contact form
-* Admin dashboard
-* Events management
-* Beneficiary management
-* Gallery
-* Blog/news section
-* Social media integration
+### Backend setup
+
+1. Install Node.js 20 or newer.
+2. Run `npm install` in this repository.
+3. Copy `.env.example` to `.env` on the backend host only.
+4. Set `CASHFREE_CLIENT_ID` and `CASHFREE_CLIENT_SECRET` to the Sandbox App ID and Secret Key from the Cashfree Merchant Dashboard.
+5. Set `FRONTEND_URL` to the exact GitHub Pages origin, for example `https://your-account.github.io/your-repository`.
+6. Set `BACKEND_PUBLIC_URL` to the public HTTPS URL of this backend. Cashfree must be able to reach `${BACKEND_PUBLIC_URL}/api/cashfree/webhook`.
+7. Set `SMTP_HOST`, `SMTP_PORT`, `SMTP_SECURE`, `SMTP_USER`, `SMTP_PASS`, and `SMTP_FROM` for the mailbox that will send receipts. Do not commit `.env`.
+8. Start the service with `npm start` and confirm `/health` returns `{ "ok": true }`.
+
+The Cashfree Dashboard webhook configuration must point to the same HTTPS webhook URL and include payment events for success, failure, pending, and user-dropped/cancelled payments. Configure the webhook secret/signing setup as provided by Cashfree; the backend validates the Cashfree webhook signature using the Cashfree client secret before changing payment state.
+
+### GitHub Pages setup
+
+Edit only the public URL in `payment-config.js` after deploying the backend:
+
+```js
+window.DONATION_API_BASE = 'https://your-public-backend.example.com';
+```
+
+This file contains no secret and may be committed to GitHub Pages. Cashfree Sandbox is selected in the frontend until you intentionally switch environments in a controlled deployment. Never put Cashfree credentials, SMTP passwords, or `.env` values in the frontend repository.
+
+The receipt deliberately does not claim 80G or any other tax exemption.
 * Online campaign management
 
 ## 📄 License
