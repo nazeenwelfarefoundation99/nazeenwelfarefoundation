@@ -220,7 +220,7 @@ donateForm?.addEventListener('submit', async (e) => {
     const result = await response.json();
     if (!response.ok) throw new Error(result.error || 'Unable to start payment.');
     if (!window.Cashfree) throw new Error('Cashfree Checkout could not be loaded. Please try again.');
-    const cashfree = window.Cashfree({ mode: 'sandbox' });
+    const cashfree = window.Cashfree({ mode: 'production' });
     await cashfree.checkout({ paymentSessionId: result.paymentSessionId, redirectTarget: '_self' });
   } catch (error) {
     showDonationStatus('Payment Could Not Start', error.message, 'error');
