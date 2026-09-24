@@ -10,7 +10,12 @@ const PDFDocument = require('pdfkit');
 const nodemailer = require('nodemailer');
 
 dotenv.config();
-
+console.log('Cashfree config:', {
+  clientId: Boolean(process.env.CASHFREE_CLIENT_ID),
+  clientSecret: Boolean(process.env.CASHFREE_CLIENT_SECRET),
+  environment: process.env.CASHFREE_ENV,
+  apiVersion: process.env.CASHFREE_API_VERSION
+});
 const app = express();
 const port = Number(process.env.PORT || 3000);
 const frontendOrigins = (process.env.FRONTEND_URL || '').split(',').map(value => value.trim()).filter(Boolean);
