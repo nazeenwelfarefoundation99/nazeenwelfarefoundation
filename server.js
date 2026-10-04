@@ -125,29 +125,123 @@ function getDonation(orderId) {
 
 function createReceiptPdf(donation) {
   const receiptPath = path.join(receiptDirectory, `${donation.donation_id}.pdf`);
-  const document = new PDFDocument({ size: 'A4', margin: 56 });
+  const document = new PDFDocument({ size: 'A4', margin: 0 });
   const stream = fs.createWriteStream(receiptPath);
+  const pageWidth = 595.28;
+  const pageHeight = 841.89;
+  const margin = 52;
+  const contentWidth = pageWidth - margin * 2;
+  const colors = {
+    blue: '#173f70',
+    darkBlue: '#12365f',
+    lightBlue: '#eef7fc',
+    border: '#c8ddea',
+    text: '#263746',
+    muted: '#607487'
+  };
+  const amount = `₹${Number(donation.amount || 0).toLocaleString('en-IN')}`;
+  const date = new Date(donation.updated_at);
+  const formattedDate = Number.isNaN(date.getTime())
+    ? 'Not available'
+    : date.toLocaleDateString('en-IN', { day: '2-digit', month: '2-digit', year: 'numeric' });
+  const transactionId = donation.cf_payment_id || 'Not available';
+  const paymentMethod = donation.payment_method || 'Cashfree Payment';
+  const notes = [
+    'Thank you for your generous donation and kind support.',
+    'Your contribution is a meaningful step toward creating a better future.',
+    'May your kindness bring happiness, peace, and success into your life.',
+    'May you and your family always be blessed with good health and prosperity.',
+    'Your generosity inspires us to continue making a positive difference.',
+    'With heartfelt gratitude and best wishes from our entire team.'
+  ].join('\n');
+
   document.pipe(stream);
-  document.fontSize(22).fillColor('#17324d').text('Nazeen Welfare Foundation', { align: 'center' });
-  document.moveDown(0.4).fontSize(13).fillColor('#168a9b').text('Donation Receipt', { align: 'center' });
-  document.moveDown(1.4).fontSize(11).fillColor('#333333');
-  const rows = [
-    ['Donor name', donation.name],
-    ['Email', donation.email],
-    ['Mobile', donation.mobile],
-    ['Amount', `INR ${donation.amount.toLocaleString('en-IN')}`],
-    ['Donation ID', donation.donation_id],
-    ['Cashfree order ID', donation.order_id],
-    ['Transaction ID', donation.cf_payment_id || 'Not available'],
-    ['Date', new Date(donation.updated_at).toLocaleString('en-IN')],
-    ['Payment status', donation.status]
+
+  document.rect(0, 0, pageWidth, 118).fill(colors.lightBlue);
+  const logoPath = path.join(__dirname, 'images', 'logo.png');
+  if (fs.existsSync(logoPath)) {
+    document.image(logoPath, (pageWidth - 72) / 2, 18, { fit: [72, 72], align: 'center' });
+  }
+  document.font('Helvetica-Bold').fontSize(24).fillColor(colors.blue)
+    .text('Payment Receipt', margin, 122, { width: contentWidth, align: 'center' });
+  document.font('Helvetica').fontSize(10).fillColor(colors.muted)
+    .text('Nazeen Welfare Foundation', margin, 153, { width: contentWidth, align: 'center' });
+
+  document.font('Helvetica-Bold').fontSize(11).fillColor(colors.blue)
+    .text('DONOR INFORMATION', margin, 188);
+  document.moveTo(margin, 205).lineTo(pageWidth - margin, 205)
+    .lineWidth(1).strokeColor(colors.border).stroke();
+
+  const labelWidth = 92;
+  const leftValueX = margin + labelWidth;
+  const rightColumnX = 355;
+  const rowHeight = 25;
+  const donorRows = [
+    ['NAME :-', donation.name, 'DATE:', formattedDate],
+    ['RECEIPT NO.:', donation.donation_id, '', ''],
+    ['RECEIVED FROM:', donation.name, '', '']
   ];
-  rows.forEach(([label, value]) => {
-    document.font('Helvetica-Bold').text(`${label}:`, { continued: true, width: 150 });
-    document.font('Helvetica').text(` ${value}`);
-    document.moveDown(0.45);
+  donorRows.forEach((row, index) => {
+    const y = 218 + index * rowHeight;
+    document.font('Helvetica-Bold').fontSize(9).fillColor(colors.text)
+      .text(row[0], margin, y, { width: labelWidth });
+    document.font('Helvetica').fontSize(9).fillColor(colors.text)
+      .text(row[1], leftValueX, y, { width: rightColumnX - leftValueX - 12, ellipsis: true });
+    if (row[2]) {
+      document.font('Helvetica-Bold').fontSize(9).fillColor(colors.text)
+        .text(row[2], rightColumnX, y, { width: 42 });
+      document.font('Helvetica').fontSize(9).fillColor(colors.text)
+        .text(row[3], rightColumnX + 42, y, { width: pageWidth - margin - rightColumnX - 42, align: 'right' });
+    }
   });
-  document.moveDown(1).fontSize(9).fillColor('#666666').text('Thank you for supporting the work of Nazeen Welfare Foundation. This receipt does not make any claim of tax exemption.', { align: 'left' });
+
+  const tableTop = 306;
+  const tableHeight = 112;
+  document.roundedRect(margin, tableTop, contentWidth, tableHeight, 4)
+    .fillAndStroke(colors.lightBlue, colors.border);
+  document.font('Helvetica-Bold').fontSize(9).fillColor(colors.blue)
+    .text('DESCRIPTION', margin + 16, tableTop + 18);
+  document.text('UNIT PRICE', 358, tableTop + 18, { width: 75, align: 'right' });
+  document.text('TOTAL', pageWidth - margin - 83, tableTop + 18, { width: 67, align: 'right' });
+  document.moveTo(margin + 16, tableTop + 37).lineTo(pageWidth - margin - 16, tableTop + 37)
+    .lineWidth(0.7).strokeColor(colors.border).stroke();
+  document.font('Helvetica').fontSize(10).fillColor(colors.text)
+    .text('Donation', margin + 16, tableTop + 57);
+  document.text(amount, 358, tableTop + 57, { width: 75, align: 'right' });
+  document.text(amount, pageWidth - margin - 83, tableTop + 57, { width: 67, align: 'right' });
+
+  const totalY = 438;
+  document.font('Helvetica-Bold').fontSize(13).fillColor(colors.blue)
+    .text('TOTAL', margin, totalY);
+  document.font('Helvetica-Bold').fontSize(16).fillColor(colors.blue)
+    .text(amount, pageWidth - margin - 145, totalY - 2, { width: 145, align: 'right' });
+  document.moveTo(margin, totalY + 28).lineTo(pageWidth - margin, totalY + 28)
+    .lineWidth(1).strokeColor(colors.border).stroke();
+
+  document.font('Helvetica-Bold').fontSize(9).fillColor(colors.text)
+    .text('PAYMENT METHOD:', margin, 490);
+  document.font('Helvetica').fontSize(9).fillColor(colors.text)
+    .text(paymentMethod, margin + 105, 490, { width: 180, ellipsis: true });
+  document.font('Helvetica-Bold').fontSize(9).fillColor(colors.text)
+    .text('TRANSACTION ID:', margin, 515);
+  document.font('Helvetica').fontSize(9).fillColor(colors.text)
+    .text(transactionId, margin + 105, 515, { width: contentWidth - 105, ellipsis: true });
+
+  document.font('Helvetica-Bold').fontSize(10).fillColor(colors.blue)
+    .text('NOTES', margin, 560);
+  document.font('Helvetica').fontSize(9).fillColor(colors.muted)
+    .text(notes, margin, 580, { width: 350, lineGap: 3 });
+
+  document.font('Helvetica').fontSize(10).fillColor(colors.blue)
+    .text('With heartfelt gratitude,', 382, 668, { width: 160, align: 'center' });
+  document.moveTo(398, 712).lineTo(525, 712).lineWidth(0.8).strokeColor(colors.blue).stroke();
+  document.font('Helvetica-Bold').fontSize(11).fillColor(colors.blue)
+    .text('NAZEEN', 382, 720, { width: 160, align: 'center' });
+  document.font('Helvetica').fontSize(8).fillColor(colors.muted)
+    .text('Thank you for supporting Nazeen Welfare Foundation.', margin, pageHeight - 48, {
+      width: contentWidth,
+      align: 'center'
+    });
   document.end();
   return new Promise((resolve, reject) => {
     stream.on('finish', () => resolve(receiptPath));

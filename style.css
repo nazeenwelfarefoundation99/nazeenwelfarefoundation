@@ -1306,6 +1306,11 @@ body { overflow-x: hidden; }
   .involved-buttons { flex-direction: column; }
   .involved-buttons .btn { width: 100%; justify-content: center; }
   .donation-modal .modal-content, .volunteer-modal .modal-content { margin: 4vh 12px; padding: 16px; }
+  .donation-modal .modal-content {
+    max-height: calc(100dvh - 2rem);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
   .donation-modal .two-up, .volunteer-modal .two-up { flex-direction: column; }
   .amount-options { flex-direction: column; align-items: stretch; }
   .form-actions { flex-direction: column; align-items: stretch; }
